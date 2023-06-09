@@ -11,7 +11,7 @@
 	<launchable type="desktop-id">@app-id@</launchable>
 	<description>
 	  <p>
-	    Patterns gives up and nice and simple to use interface to test/practice
+	    Patterns gives you a nice and simple to use interface to test/practice
 	    regular expressions.
 	  </p>
 	</description>

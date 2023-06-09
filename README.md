@@ -11,7 +11,7 @@
   <img src="/data/screenshots/dark.png" alt="Dark"/>
 </p>
 
-Patterns is a simple app for test your regular expressions.
+Patterns gives you a nice and simple to use interface to test/practice regular expressions.
 
 ## Code of conduct
 
