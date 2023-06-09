@@ -176,6 +176,11 @@ impl Window {
             captures += 1;
         }
 
+        if regex.len() < 1 || captures == 0 {
+            imp.matches_label.set_label(&gettext("no matches"));
+            return;
+        }
+
         imp.matches_label.set_label(
             ngettext_f(
                 "{matches} match",
