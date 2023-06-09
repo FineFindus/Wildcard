@@ -3,8 +3,10 @@ using Adw 1;
 
 template $Window : Adw.ApplicationWindow {
   title: _("Patterns");
-  default-width: 420;
+  default-width: 370;
   default-height: 600;
+  width-request: 300;
+  height-request: 250;
 
   content: Adw.ToastOverlay toast_overlay {
     child: Adw.ToolbarView {
