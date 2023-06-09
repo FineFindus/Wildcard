@@ -213,7 +213,7 @@ impl Window {
             .license_type(gtk::License::Gpl30)
             .comments(gettext("Test your regular expressions"))
             .website("https://github.com/fkinoshita/Patterns")
-            .issue_url("https://github.com/fkinoshita/Patterns/-/issues/new")
+            .issue_url("https://github.com/fkinoshita/Patterns/issues/new")
             .version(VERSION)
             .transient_for(self)
             .translator_credits(gettext("translator-credits"))
