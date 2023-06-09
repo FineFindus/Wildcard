@@ -9,7 +9,7 @@ use glib::clone;
 
 use gettextrs::gettext;
 
-use crate::i18n::gettext_f;
+use crate::i18n::ngettext_f;
 
 use crate::application::Application;
 use crate::config::{APP_ID, VERSION, PROFILE};
@@ -176,7 +176,14 @@ impl Window {
             captures += 1;
         }
 
-        imp.matches_label.set_label(&gettext_f("{matches} matches", &[("matches", format!("{}", captures).as_str())]));
+        imp.matches_label.set_label(
+            ngettext_f(
+                "{matches} match",
+                "{matches} matches",
+                captures,
+                &[("matches", format!("{}", captures).as_str())]
+            ).as_str()
+        );
     }
 
     fn save_window_size(&self) -> Result<(), glib::BoolError> {
