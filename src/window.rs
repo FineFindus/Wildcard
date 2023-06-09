@@ -7,10 +7,12 @@ use adw::subclass::prelude::*;
 use gtk::{gio, glib};
 use glib::clone;
 
+use gettextrs::gettext;
+
 use crate::i18n::gettext_f;
 
 use crate::application::Application;
-use crate::config::{APP_ID, PROFILE};
+use crate::config::{APP_ID, VERSION, PROFILE};
 
 mod imp {
     use super::*;
@@ -48,6 +50,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action("win.about", None, move |obj, _, _| {
+               obj.show_about_dialog();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -186,5 +192,23 @@ impl Window {
         let height = imp.settings.int("window-height");
 
         self.set_default_size(width, height);
+    }
+
+    fn show_about_dialog(&self) {
+        let dialog = adw::AboutWindow::builder()
+            .application_icon(APP_ID)
+            .application_name(gettext("Patterns"))
+            .license_type(gtk::License::Gpl30)
+            .comments(gettext("Test your regular expressions"))
+            .website("https://github.com/fkinoshita/Patterns")
+            .issue_url("https://github.com/fkinoshita/Patterns/-/issues/new")
+            .version(VERSION)
+            .transient_for(self)
+            .translator_credits(gettext("translator-credits"))
+            .developer_name("Felipe Kinoshita")
+            .developers(vec!["Felipe Kinoshita <fkinoshita@gnome.org>"])
+            .build();
+
+        dialog.present();
     }
 }
