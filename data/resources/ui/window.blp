@@ -1,0 +1,98 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $Window : Adw.ApplicationWindow {
+  title: _("Patterns");
+  default-width: 420;
+  default-height: 600;
+
+  content: Adw.ToastOverlay toast_overlay {
+    child: Adw.ToolbarView {
+      [top]
+      Adw.HeaderBar {
+        [end]
+        Gtk.MenuButton {
+          menu-model: primary_menu;
+          primary: true;
+          tooltip-text: _("Main Menu");
+          icon-name: "open-menu-symbolic";
+        }
+      }
+
+      content: Gtk.Box {
+        orientation: vertical;
+        hexpand: true;
+        vexpand: true;
+        margin-top: 6;
+        margin-bottom: 18;
+        margin-start: 18;
+        margin-end: 18;
+        spacing: 18;
+
+        Gtk.Box {
+          hexpand: true;
+
+          styles ["card", "text-box"]
+
+          Gtk.ScrolledWindow {
+            margin-top: 12;
+            margin-bottom: 12;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.TextView regex_text_view {
+              wrap-mode: word_char;
+              hexpand: true;
+            }
+          }
+        }
+
+        Gtk.Box {
+          orientation: vertical;
+          hexpand: true;
+          vexpand: true;
+
+          styles ["card", "text-box", "darker"]
+
+          Gtk.ScrolledWindow {
+            margin-top: 12;
+            margin-bottom: 12;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.TextView test_text_view {
+              wrap-mode: word_char;
+              hexpand: true;
+              vexpand: true;
+            }
+          }
+
+          Gtk.Label matches_label {
+            label: _("0 matches");
+            halign: end;
+            margin-bottom: 6;
+            margin-end: 6;
+
+            styles ["dim-label"]
+          }
+        }
+      };
+    };
+  };
+}
+
+menu primary_menu {
+  section {
+
+    item {
+      label: _("_Keyboard Shortcuts");
+      action: "win.show-help-overlay";
+    }
+
+    item {
+      label: _("_About Patterns");
+      action: "win.about";
+    }
+
+  }
+}
