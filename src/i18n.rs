@@ -10,6 +10,7 @@ fn freplace(s: String, args: &[(&str, &str)]) -> String {
     s
 }
 
+#[allow(unused)]
 /// Like `gettext`, but replaces named variables with the given dictionary.
 ///
 /// The expected format to replace is `{name}`, where `name` is the first string
