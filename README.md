@@ -8,6 +8,7 @@
 
 <p align="center">
   <img src="/data/screenshots/preview.png" alt="Preview"/>
+  <img src="/data/screenshots/dark.png" alt="Dark"/>
 </p>
 
 Patterns is a simple app for test your regular expressions.

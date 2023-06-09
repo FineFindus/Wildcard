@@ -21,6 +21,11 @@
         https://raw.githubusercontent.com/fkinoshita/Patterns/main/data/screenshots/preview.png
       </image>
     </screenshot>
+    <screenshot>
+      <image>
+        https://raw.githubusercontent.com/fkinoshita/Patterns/main/data/screenshots/dark.png
+      </image>
+    </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/fkinoshita/Patterns</url>
   <url type="bugtracker">https://github.com/fkinoshita/Patterns/issues</url>
