@@ -108,6 +108,9 @@ impl Window {
     fn setup(&self) {
         let imp = self.imp();
 
+        let regex_buffer = imp.regex_text_view.buffer();
+        regex_buffer.set_text("[a-z]{6}");
+
         let test_buffer = imp.test_text_view.buffer();
 
         test_buffer.set_text("This is a test string");
@@ -115,6 +118,8 @@ impl Window {
         test_buffer.create_tag(Some("marked_first"), &[("background", &"#99c1f1")]);
         test_buffer.create_tag(Some("marked_second"), &[("background", &"#62a0ea")]);
         test_buffer.create_tag(Some("marked_highlight"), &[("background", &"#f9f06b")]);
+
+        self.check_regex();
     }
 
     fn setup_signals(&self) {
