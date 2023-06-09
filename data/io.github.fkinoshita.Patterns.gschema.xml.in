@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="patterns">
+	<schema id="io.github.fkinoshita.Patterns" path="/io/github/fkinoshita/Patterns/">
+
+	  <key name="window-width" type="i">
+	    <default>420</default>
+	    <summary>Window width</summary>
+	  </key>
+
+	  <key name="window-height" type="i">
+	    <default>600</default>
+	    <summary>Window height</summary>
+	  </key>
+
+	</schema>
+</schemalist>

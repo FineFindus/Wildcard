@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="Window" parent="AdwApplicationWindow">
+    <property name="title">Patterns</property>
+    <property name="default-width">420</property>
+    <property name="default-height">600</property>
+
+    <property name="content">
+      <object class="AdwToastOverlay" id="toast_overlay">
+
+        <property name="child">
+          <object class="AdwToolbarView">
+
+            <child type="top">
+              <object class="AdwHeaderBar">
+
+                <child type="end">
+                  <object class="GtkMenuButton">
+                    <property name="menu-model">primary_menu</property>
+                    <property name="primary">true</property>
+                    <property name="tooltip-text" translatable="yes">Main Menu</property>
+                    <property name="icon-name">open-menu-symbolic</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <property name="content">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">18</property>
+                <property name="margin-start">18</property>
+                <property name="margin-end">18</property>
+                <property name="spacing">18</property>
+                <property name="homogeneous">true</property>
+
+                <child>
+                  <object class="GtkBox">
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+
+                    <style>
+                      <class name="card"/>
+                      <class name="text-box"/>
+                    </style>
+
+                    <child>
+                      <object class="GtkScrolledWindow">
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-end">12</property>
+
+                        <child>
+                          <object class="GtkTextView" id="regex_text_view">
+                            <property name="wrap-mode">GTK_WRAP_WORD_CHAR</property>
+                            <property name="hexpand">true</property>
+                            <property name="vexpand">true</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+
+                    <style>
+                      <class name="card"/>
+                      <class name="text-box"/>
+                      <class name="darker"/>
+                    </style>
+
+                    <child>
+                      <object class="GtkScrolledWindow">
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-end">12</property>
+
+                        <child>
+                          <object class="GtkTextView" id="test_text_view">
+                            <property name="wrap-mode">GTK_WRAP_WORD_CHAR</property>
+                            <property name="hexpand">true</property>
+                            <property name="vexpand">true</property>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkLabel" id="matches_label">
+                        <property name="label" translatable="yes">0 matches</property>
+                        <property name="halign">end</property>
+                        <property name="margin-bottom">6</property>
+                        <property name="margin-end">6</property>
+
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </property>
+
+          </object>
+        </property>
+
+      </object>
+    </property>
+
+  </template>
+
+  <menu id="primary_menu">
+    <section>
+
+      <item>
+        <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+        <attribute name="action">win.show-help-overlay</attribute>
+      </item>
+
+      <item>
+        <attribute name="label" translatable="yes">_About Patterns</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+
+    </section>
+  </menu>
+
+</interface>

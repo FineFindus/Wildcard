@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=patterns
+Exec=patterns
+Icon=io.github.fkinoshita.Patterns
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
