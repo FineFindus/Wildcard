@@ -24,7 +24,7 @@ mod i18n;
 mod window;
 
 use gettextrs::{gettext, LocaleCategory};
-use gtk::{gio, glib, prelude::*};
+use gtk::{gio, glib};
 
 use self::application::Application;
 use self::config::{GETTEXT_PACKAGE, LOCALEDIR, RESOURCES_FILE};
