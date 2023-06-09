@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-	<id>io.github.fkinoshita.Patterns.desktop</id>
-	<metadata_license>CC0-1.0</metadata_license>
+	<id>@app-id@</id>
+  <metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
+  <name>Patterns</name>
+  <summary>Test your regular expressions</summary>
+  <developer_name>Felipe Kinoshita</developer_name>
+  <update_contact>fkinoshita@gnome.org</update_contact>
+  <translation type="gettext">@gettext-package@</translation>
+	<launchable type="desktop-id">@app-id@</launchable>
 	<description>
-	  <p>No description</p>
+	  <p>
+	    Patterns gives up and nice and simple to use interface to test/practice
+	    regular expressions.
+	  </p>
 	</description>
+  <screenshots>
+    <screenshot type="default">
+      <image>
+        https://raw.githubusercontent.com/fkinoshita/Patterns/main/data/screenshots/preview.png
+      </image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/fkinoshita/Patterns</url>
+  <url type="bugtracker">https://github.com/fkinoshita/Patterns/issues</url>
+  <url type="donation">https://ko-fi.com/fkinoshita</url>
+  <content_rating type="oars-1.0"/>
+  <kudos>
+     <!--
+       GNOME Software kudos:
+       https://gitlab.gnome.org/GNOME/gnome-software/blob/main/doc/kudos.md
+     -->
+     <kudo>ModernToolkit</kudo>
+     <kudo>HiDpiIcon</kudo>
+  </kudos>
+  <platform>GTK 4</platform>
+  <platform>Libadwaita</platform>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+  </recommends>
+  <custom>
+    <value key="Purism::form_factor">workstation</value>
+    <value key="Purism::form_factor">mobile</value>
+  </custom>
 </component>
