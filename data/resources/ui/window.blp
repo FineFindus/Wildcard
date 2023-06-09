@@ -9,9 +9,12 @@ template $Window : Adw.ApplicationWindow {
   height-request: 250;
 
   content: Adw.ToastOverlay toast_overlay {
-    child: Adw.ToolbarView {
-      [top]
+    child: Gtk.Box {
+      orientation: vertical;
+
       Adw.HeaderBar {
+        styles ["flat"]
+
         [end]
         Gtk.MenuButton {
           menu-model: primary_menu;
@@ -21,7 +24,7 @@ template $Window : Adw.ApplicationWindow {
         }
       }
 
-      content: Gtk.Box {
+      Gtk.Box {
         orientation: vertical;
         hexpand: true;
         vexpand: true;
@@ -78,7 +81,7 @@ template $Window : Adw.ApplicationWindow {
             styles ["dim-label"]
           }
         }
-      };
+      }
     };
   };
 }

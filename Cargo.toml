@@ -12,4 +12,4 @@ regex = "1.7"
 [dependencies.adw]
 package = "libadwaita"
 version = "0.4.3"
-features = ["v1_4"]
+features = ["v1_3"]

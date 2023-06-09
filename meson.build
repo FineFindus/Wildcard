@@ -12,7 +12,7 @@ gnome = import('gnome')
 base_id = 'io.github.fkinoshita.Patterns'
 
 dependency('gtk4', version: '>=4.10')
-dependency('libadwaita-1', version: '>=1.4')
+dependency('libadwaita-1', version: '>=1.3')
 
 glib_compile_resources = find_program('glib-compile-resources', required: true)
 glib_compile_schemas = find_program('glib-compile-schemas', required: true)
