@@ -27,28 +27,28 @@ if desktop_file_validate.found()
   )
 endif
 
-appdata_conf = configuration_data()
-appdata_conf.set('app-id', application_id)
-appdata_conf.set('gettext-package', gettext_package)
-appdata_file = i18n.merge_file(
+metainfo_conf = configuration_data()
+metainfo_conf.set('app-id', application_id)
+metainfo_conf.set('gettext-package', meson.project_name())
+metainfo = i18n.merge_file(
   input: configure_file(
-    input: '@0@.metainfo.xml.in.in'.format(base_id),
-    output: '@BASENAME@',
-    configuration: appdata_conf
+    input: files('@0@.metainfo.xml.in.in'.format(application_id)),
+    output: '@0@.metainfo.xml.in'.format(application_id),
+    configuration: metainfo_conf
   ),
   output: '@0@.metainfo.xml'.format(application_id),
-  po_dir: podir,
   install: true,
-  install_dir: datadir / 'metainfo'
+  install_dir: join_paths(join_paths('share'), 'metainfo'),
+  po_dir: join_paths(meson.project_source_root(), 'po')
 )
 
+# Validating the metainfo file
+appstreamcli = find_program('appstream-util', required: false)
 if appstreamcli.found()
-  test(
-    'validate-appdata', appstreamcli,
-    args: [
-      'validate', '--no-net', '--explain', appdata_file
-    ],
-    depends: appdata_file,
+  test (
+    'Validate metainfo file',
+    appstreamcli,
+    args: ['validate-relax', '--nonet', join_paths(meson.current_build_dir (), application_id + '.metainfo.xml')]
   )
 endif
 
