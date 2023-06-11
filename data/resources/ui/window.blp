@@ -53,6 +53,8 @@ template $Window : Adw.ApplicationWindow {
             margin-start: 12;
             margin-end: 12;
 
+            styles ["scrolled-window"]
+
             Gtk.Overlay {
               child: Gtk.TextView regex_text_view {
                 buffer: regex_buffer;
@@ -84,6 +86,8 @@ template $Window : Adw.ApplicationWindow {
             margin-bottom: 12;
             margin-start: 12;
             margin-end: 12;
+
+            styles ["scrolled-window"]
 
             Gtk.Overlay {
               child: Gtk.TextView test_text_view {
