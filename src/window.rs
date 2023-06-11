@@ -221,6 +221,7 @@ impl Window {
             .translator_credits(gettext("translator-credits"))
             .developer_name("Felipe Kinoshita")
             .developers(vec!["Felipe Kinoshita <fkinoshita@gnome.org>"])
+            .copyright("© 2023 Felipe Kinoshita.")
             .build();
 
         dialog.present();
