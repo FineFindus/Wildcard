@@ -89,10 +89,10 @@ mod imp {
     impl Window {
         #[template_callback]
         fn on_buffer_changed(&self, _text_buffer: &gtk::TextBuffer) {
-            let regex = self.regex_buffer.text(&self.regex_buffer.start_iter(), &self.regex_buffer.end_iter(), false);
+            let regex_string = self.regex_buffer.text(&self.regex_buffer.start_iter(), &self.regex_buffer.end_iter(), false);
             let test_string = self.test_buffer.text(&self.test_buffer.start_iter(), &self.test_buffer.end_iter(), false);
 
-            if regex.len() < 1 {
+            if regex_string.len() < 1 {
                 self.regex_placeholder.set_visible(true);
             } else {
                 self.regex_placeholder.set_visible(false);
@@ -104,7 +104,18 @@ mod imp {
                 self.test_placeholder.set_visible(false);
             }
 
-            let re: Regex = match RegexBuilder::new(regex.as_str()).multi_line(true).build() {
+            let mut regex_parts = regex_string.split("/");
+            let regex = regex_parts.next().unwrap_or("");
+            let flags = regex_parts.next().unwrap_or("");
+
+            let re: Regex = match RegexBuilder::new(regex)
+                    .multi_line(flags.contains("m"))
+                    .case_insensitive(flags.contains("i"))
+                    .ignore_whitespace(flags.contains("x"))
+                    .dot_matches_new_line(flags.contains("s"))
+                    .unicode(flags.contains("u"))
+                    .swap_greed(flags.contains("U"))
+                    .build() {
                 Ok(r) => r,
                 Err(_) => {
                     Regex::new(r"").unwrap()
