@@ -183,8 +183,8 @@ impl Window {
 
         imp.regex_text_view.grab_focus();
 
-        imp.test_buffer.create_tag(Some("marked_first"), &[("background", &"#99c1f1")]);
-        imp.test_buffer.create_tag(Some("marked_second"), &[("background", &"#62a0ea")]);
+        imp.test_buffer.create_tag(Some("marked_first"), &[("background", &"#99c1f1"), ("foreground", &"#000000")]);
+        imp.test_buffer.create_tag(Some("marked_second"), &[("background", &"#62a0ea"), ("foreground", &"#000000")]);
         imp.test_buffer.create_tag(Some("marked_highlight"), &[("background", &"#f9f06b")]);
     }
 
