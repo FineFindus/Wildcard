@@ -12,5 +12,15 @@
 	    <summary>Window height</summary>
 	  </key>
 
+	  <key name="last-regex" type="s">
+	    <default>''</default>
+	    <summary>Last regular expression insert</summary>
+	  </key>
+
+	  <key name="last-test" type="s">
+	    <default>''</default>
+	    <summary>Last test insert</summary>
+	  </key>
+
 	</schema>
 </schemalist>

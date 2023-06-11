@@ -81,6 +81,7 @@ mod imp {
             }
 
             obj.setup_text_views();
+            obj.load_regex_state();
             obj.load_window_size();
         }
     }
@@ -166,6 +167,10 @@ mod imp {
         fn close_request(&self) -> gtk::Inhibit {
             let window = self.obj();
 
+            if let Err(err) = window.save_regex_state() {
+                println!("Failed to save regex state, {}", &err);
+            }
+
             if let Err(err) = window.save_window_size() {
                 println!("Failed to save window state, {}", &err);
             }
@@ -197,6 +202,28 @@ impl Window {
         imp.test_buffer.create_tag(Some("marked_first"), &[("background", &"#99c1f1"), ("foreground", &"#000000")]);
         imp.test_buffer.create_tag(Some("marked_second"), &[("background", &"#62a0ea"), ("foreground", &"#000000")]);
         imp.test_buffer.create_tag(Some("marked_highlight"), &[("background", &"#f9f06b")]);
+    }
+
+    fn save_regex_state(&self) -> Result<(), glib::BoolError> {
+        let imp = self.imp();
+
+        let regex_string = imp.regex_buffer.text(&imp.regex_buffer.start_iter(), &imp.regex_buffer.end_iter(), false);
+        let test_string = imp.test_buffer.text(&imp.test_buffer.start_iter(), &imp.test_buffer.end_iter(), false);
+
+        imp.settings.set_string("last-regex", &regex_string)?;
+        imp.settings.set_string("last-test", &test_string)?;
+
+        Ok(())
+    }
+
+    fn load_regex_state(&self) {
+        let imp = self.imp();
+
+        let regex_string = imp.settings.string("last-regex");
+        let test_string = imp.settings.string("last-test");
+
+        imp.regex_buffer.set_text(&regex_string);
+        imp.test_buffer.set_text(&test_string);
     }
 
     fn save_window_size(&self) -> Result<(), glib::BoolError> {
