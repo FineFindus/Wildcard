@@ -53,9 +53,21 @@ template $Window : Adw.ApplicationWindow {
             margin-start: 12;
             margin-end: 12;
 
-            Gtk.TextView regex_text_view {
-              wrap-mode: word_char;
-              hexpand: true;
+            Gtk.Overlay {
+              child: Gtk.TextView regex_text_view {
+                buffer: regex_buffer;
+                wrap-mode: word_char;
+                hexpand: true;
+              };
+
+              [overlay]
+              Gtk.Label regex_placeholder {
+                label: _("Type your regular expression here…");
+                ellipsize: end;
+                halign: start;
+                valign: start;
+                sensitive: false;
+              }
             }
           }
         }
@@ -73,10 +85,22 @@ template $Window : Adw.ApplicationWindow {
             margin-start: 12;
             margin-end: 12;
 
-            Gtk.TextView test_text_view {
-              wrap-mode: word_char;
-              hexpand: true;
-              vexpand: true;
+            Gtk.Overlay {
+              child: Gtk.TextView test_text_view {
+                buffer: test_buffer;
+                wrap-mode: word_char;
+                hexpand: true;
+                vexpand: true;
+              };
+
+              [overlay]
+              Gtk.Label test_placeholder {
+                label: _("Type your test string here…");
+                ellipsize: end;
+                halign: start;
+                valign: start;
+                sensitive: false;
+              }
             }
           }
 

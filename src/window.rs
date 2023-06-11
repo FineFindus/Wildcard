@@ -24,6 +24,10 @@ mod imp {
         #[template_child]
         pub regex_text_view: TemplateChild<gtk::TextView>,
         #[template_child]
+        pub regex_placeholder: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub test_placeholder: TemplateChild<gtk::Label>,
+        #[template_child]
         pub regex_buffer: TemplateChild<gtk::TextBuffer>,
         #[template_child]
         pub test_buffer: TemplateChild<gtk::TextBuffer>,
@@ -37,6 +41,8 @@ mod imp {
                 settings: gio::Settings::new(APP_ID),
 
                 regex_text_view: TemplateChild::default(),
+                regex_placeholder: TemplateChild::default(),
+                test_placeholder: TemplateChild::default(),
                 regex_buffer: TemplateChild::default(),
                 test_buffer: TemplateChild::default(),
                 matches_label: TemplateChild::default(),
@@ -85,6 +91,18 @@ mod imp {
         fn on_buffer_changed(&self, _text_buffer: &gtk::TextBuffer) {
             let regex = self.regex_buffer.text(&self.regex_buffer.start_iter(), &self.regex_buffer.end_iter(), false);
             let test_string = self.test_buffer.text(&self.test_buffer.start_iter(), &self.test_buffer.end_iter(), false);
+
+            if regex.len() < 1 {
+                self.regex_placeholder.set_visible(true);
+            } else {
+                self.regex_placeholder.set_visible(false);
+            }
+
+            if test_string.len() < 1 {
+                self.test_placeholder.set_visible(true);
+            } else {
+                self.test_placeholder.set_visible(false);
+            }
 
             let re: Regex = match RegexBuilder::new(regex.as_str()).multi_line(true).build() {
                 Ok(r) => r,
