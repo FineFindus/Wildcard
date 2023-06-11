@@ -1,6 +1,14 @@
 using Gtk 4.0;
 using Adw 1;
 
+Gtk.TextBuffer regex_buffer {
+  changed => $on_buffer_changed() swapped;
+}
+
+Gtk.TextBuffer test_buffer {
+  changed => $on_buffer_changed() swapped;
+}
+
 template $Window : Adw.ApplicationWindow {
   title: _("Patterns");
   default-width: 370;

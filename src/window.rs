@@ -5,7 +5,6 @@ use regex::{Regex, RegexBuilder};
 use gtk::prelude::*;
 use adw::subclass::prelude::*;
 use gtk::{gio, glib};
-use glib::clone;
 
 use gettextrs::gettext;
 
@@ -25,7 +24,9 @@ mod imp {
         #[template_child]
         pub regex_text_view: TemplateChild<gtk::TextView>,
         #[template_child]
-        pub test_text_view: TemplateChild<gtk::TextView>,
+        pub regex_buffer: TemplateChild<gtk::TextBuffer>,
+        #[template_child]
+        pub test_buffer: TemplateChild<gtk::TextBuffer>,
         #[template_child]
         pub matches_label: TemplateChild<gtk::Label>,
     }
@@ -36,7 +37,8 @@ mod imp {
                 settings: gio::Settings::new(APP_ID),
 
                 regex_text_view: TemplateChild::default(),
-                test_text_view: TemplateChild::default(),
+                regex_buffer: TemplateChild::default(),
+                test_buffer: TemplateChild::default(),
                 matches_label: TemplateChild::default(),
             }
         }
@@ -50,6 +52,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action("win.about", None, move |obj, _, _| {
                obj.show_about_dialog();
@@ -71,9 +74,61 @@ mod imp {
                 obj.add_css_class("devel");
             }
 
-            obj.setup();
-            obj.setup_signals();
+            obj.setup_text_views();
             obj.load_window_size();
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl Window {
+        #[template_callback]
+        fn on_buffer_changed(&self, _text_buffer: &gtk::TextBuffer) {
+            let regex = self.regex_buffer.text(&self.regex_buffer.start_iter(), &self.regex_buffer.end_iter(), false);
+            let test_string = self.test_buffer.text(&self.test_buffer.start_iter(), &self.test_buffer.end_iter(), false);
+
+            let re: Regex = match RegexBuilder::new(regex.as_str()).multi_line(true).build() {
+                Ok(r) => r,
+                Err(_) => {
+                    Regex::new(r"").unwrap()
+                },
+            };
+
+            self.test_buffer.remove_all_tags(&self.test_buffer.start_iter(), &self.test_buffer.end_iter());
+
+            let mut captures = 0;
+
+            for (index, caps) in re.captures_iter(test_string.as_str()).enumerate() {
+                let m = caps.get(0).unwrap();
+
+                let mut start_iter = self.test_buffer.start_iter().clone();
+                start_iter.set_offset(m.start() as i32);
+
+                let mut end_iter = self.test_buffer.start_iter().clone();
+                end_iter.set_offset(m.end() as i32);
+
+                if index % 2 == 0 {
+                    self.test_buffer.apply_tag_by_name(format!("marked_first").as_str(), &start_iter, &end_iter);
+                } else {
+                    self.test_buffer.apply_tag_by_name(format!("marked_second").as_str(), &start_iter, &end_iter);
+                }
+
+                captures += 1;
+            }
+
+            if regex.len() < 1 || captures == 0 {
+                self.matches_label.set_label(&gettext("no matches"));
+                return;
+            }
+
+            self.matches_label.set_label(
+                ngettext_f(
+                    "{matches} match",
+                    "{matches} matches",
+                    captures,
+                    &[("matches", format!("{}", captures).as_str())]
+                ).as_str()
+            );
+
         }
     }
 
@@ -105,90 +160,14 @@ impl Window {
         glib::Object::builder().property("application", application).build()
     }
 
-    fn setup(&self) {
+    fn setup_text_views(&self) {
         let imp = self.imp();
 
-        let regex_buffer = imp.regex_text_view.buffer();
-        regex_buffer.set_text("[a-z]{6}");
+        imp.regex_text_view.grab_focus();
 
-        let test_buffer = imp.test_text_view.buffer();
-
-        test_buffer.set_text("This is a test string");
-
-        test_buffer.create_tag(Some("marked_first"), &[("background", &"#99c1f1")]);
-        test_buffer.create_tag(Some("marked_second"), &[("background", &"#62a0ea")]);
-        test_buffer.create_tag(Some("marked_highlight"), &[("background", &"#f9f06b")]);
-
-        self.check_regex();
-    }
-
-    fn setup_signals(&self) {
-        let imp = self.imp();
-
-        imp.regex_text_view.buffer().connect_changed(
-            clone!(@strong self as this => move |_| {
-                this.check_regex();
-            })
-        );
-
-        imp.test_text_view.buffer().connect_changed(
-            clone!(@strong self as this => move |_| {
-                this.check_regex();
-            })
-        );
-    }
-
-    fn check_regex(&self) {
-        let imp = self.imp();
-
-        let regex_buffer = imp.regex_text_view.buffer();
-        let regex = regex_buffer.text(&regex_buffer.start_iter(), &regex_buffer.end_iter(), false);
-
-        let test_buffer = self.imp().test_text_view.buffer();
-        let test_string = test_buffer.text(&test_buffer.start_iter(), &test_buffer.end_iter(), false);
-
-        let re: Regex = match RegexBuilder::new(regex.as_str()).multi_line(true).build() {
-            Ok(r) => r,
-            Err(_) => {
-                Regex::new(r"").unwrap()
-            },
-        };
-
-        test_buffer.remove_all_tags(&test_buffer.start_iter(), &test_buffer.end_iter());
-
-        let mut captures = 0;
-
-        for (index, caps) in re.captures_iter(test_string.as_str()).enumerate() {
-            let m = caps.get(0).unwrap();
-
-            let mut start_iter = test_buffer.start_iter().clone();
-            start_iter.set_offset(m.start() as i32);
-
-            let mut end_iter = test_buffer.start_iter().clone();
-            end_iter.set_offset(m.end() as i32);
-
-            if index % 2 == 0 {
-                test_buffer.apply_tag_by_name(format!("marked_first").as_str(), &start_iter, &end_iter);
-            } else {
-                test_buffer.apply_tag_by_name(format!("marked_second").as_str(), &start_iter, &end_iter);
-            }
-
-            captures += 1;
-        }
-
-        if regex.len() < 1 || captures == 0 {
-            imp.matches_label.set_label(&gettext("no matches"));
-            return;
-        }
-
-        imp.matches_label.set_label(
-            ngettext_f(
-                "{matches} match",
-                "{matches} matches",
-                captures,
-                &[("matches", format!("{}", captures).as_str())]
-            ).as_str()
-        );
+        imp.test_buffer.create_tag(Some("marked_first"), &[("background", &"#99c1f1")]);
+        imp.test_buffer.create_tag(Some("marked_second"), &[("background", &"#62a0ea")]);
+        imp.test_buffer.create_tag(Some("marked_highlight"), &[("background", &"#f9f06b")]);
     }
 
     fn save_window_size(&self) -> Result<(), glib::BoolError> {
